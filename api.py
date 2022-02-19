@@ -17,7 +17,7 @@ def home():
 @app.route('/api/v1/text', methods=['GET', 'POST'])
 @cross_origin()
 def text_call():
-    code  = request.data
+    code  = str(request.data)
     epochs  = request.args.get('epochs', None)
     class_num = request.args.get('class',None)
     max_len = request.args.get('maxlen', None)
@@ -25,7 +25,7 @@ def text_call():
 @app.route('/api/v1/image', methods=['GET', 'POST'])
 @cross_origin()
 def img_call():
-    code  = request.data
+    code  = str(request.data)
     epochs  = request.args.get('epochs', None)
     class_num = request.args.get('class',None)
     hei = request.args.get('height', None)
