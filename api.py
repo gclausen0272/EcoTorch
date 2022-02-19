@@ -14,18 +14,18 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 def home():
     return "<h1>My First Deployed Application</h1><p>This is my first deployed application</p>"
 
-@app.route('/api/v1/text', methods=['GET'])
+@app.route('/api/v1/text', methods=['GET', 'POST'])
 @cross_origin()
 def text_call():
-    code  = request.args.get('code', None)
+    code  = request.data
     epochs  = request.args.get('epochs', None)
     class_num = request.args.get('class',None)
     max_len = request.args.get('maxlen', None)
     return jsonify([code, epochs,class_num, max_len])
-@app.route('/api/v1/image', methods=['GET'])
+@app.route('/api/v1/image', methods=['GET', 'POST'])
 @cross_origin()
 def img_call():
-    code  = request.args.get('code', None)
+    code  = request.data
     epochs  = request.args.get('epochs', None)
     class_num = request.args.get('class',None)
     hei = request.args.get('height', None)
