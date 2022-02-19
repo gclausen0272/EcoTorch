@@ -37,7 +37,7 @@ def prof_call():
 @cross_origin()
 def torch_call():
 
-    result = torch.version
+    result = str(torch.version)
     # Use the jsonify function from Flask to convert our list of
     # Python dictionaries to the JSON format.
     return jsonify(result)
