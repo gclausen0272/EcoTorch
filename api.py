@@ -32,6 +32,14 @@ def prof_call():
     # Python dictionaries to the JSON format.
     return jsonify(result)
 
+@app.route('/api/v1/torch', methods=['GET'])
+@cross_origin()
+def torch_call():
+
+    result = torch.version
+    # Use the jsonify function from Flask to convert our list of
+    # Python dictionaries to the JSON format.
+    return jsonify(result)
 
 @app.route('/')
 def index():
