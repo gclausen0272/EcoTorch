@@ -18,6 +18,9 @@ def home():
 @cross_origin()
 def text_call():
     code  = str(request.data)
+    text_file = open("sample.txt", "w")
+    n = text_file.write(code.replace("\\n","\n"))
+    text_file.close()
     epochs  = request.args.get('epochs', None)
     class_num = request.args.get('class',None)
     max_len = request.args.get('maxlen', None)
@@ -26,6 +29,9 @@ def text_call():
 @cross_origin()
 def img_call():
     code  = str(request.data)
+    text_file = open("sample.txt", "w")
+    n = text_file.write(code.replace("\\n","\n"))
+    text_file.close()
     epochs  = request.args.get('epochs', None)
     class_num = request.args.get('class',None)
     hei = request.args.get('height', None)
