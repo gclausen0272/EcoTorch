@@ -1,7 +1,6 @@
 import flask
 from flask import request, jsonify
 from flask_cors import CORS, cross_origin
-import torch
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -36,22 +35,22 @@ def echo_call():
     # Python dictionaries to the JSON format.
     return jsonify(result)
 
-@app.route('/api/v1/testTorch', methods=['GET'])
-@cross_origin()
-def torch_call():
-    # Check if an ID was provided as part of the URL.
-    # If ID is provided, assign it to a variable.
-    # If no ID is provided, display an error in the browser.
-    echo = ""
-    if 'echo' in request.args:
-        echo = (request.args['echo'])
-    else:
-        return "Error: No id field provided. Please specify an id."
+# @app.route('/api/v1/testTorch', methods=['GET'])
+# @cross_origin()
+# def torch_call():
+#     # Check if an ID was provided as part of the URL.
+#     # If ID is provided, assign it to a variable.
+#     # If no ID is provided, display an error in the browser.
+#     echo = ""
+#     if 'echo' in request.args:
+#         echo = (request.args['echo'])
+#     else:
+#         return "Error: No id field provided. Please specify an id."
 
-    result = torch.version
-    # Use the jsonify function from Flask to convert our list of
-    # Python dictionaries to the JSON format.
-    return jsonify(result)
+#     result = torch.version
+#     # Use the jsonify function from Flask to convert our list of
+#     # Python dictionaries to the JSON format.
+#     return jsonify(result)
 
 @app.route('/')
 def index():
