@@ -1,6 +1,7 @@
 import flask
 from flask import request, jsonify
 from flask_cors import CORS, cross_origin
+import torch
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
