@@ -20,7 +20,7 @@ def home():
 
 @app.route('/api/v1/testecho', methods=['GET'])
 @cross_origin()
-def prof_call():
+def echo_call():
     # Check if an ID was provided as part of the URL.
     # If ID is provided, assign it to a variable.
     # If no ID is provided, display an error in the browser.
@@ -38,7 +38,7 @@ def prof_call():
 
 @app.route('/api/v1/testTorch', methods=['GET'])
 @cross_origin()
-def prof_call():
+def torch_call():
     # Check if an ID was provided as part of the URL.
     # If ID is provided, assign it to a variable.
     # If no ID is provided, display an error in the browser.
