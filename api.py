@@ -1,7 +1,10 @@
+from encodings import utf_8
 import flask
 from flask import request, jsonify
 from flask_cors import CORS, cross_origin
 import torch
+from subprocess import Popen, check_output
+import subprocess
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -19,24 +22,61 @@ def home():
 def text_call():
     code  = str(request.data)
     text_file = open("sample.txt", "w")
-    n = text_file.write(code.replace("\\n","\n"))
+    n = text_file.write(str(code.replace("\\n","\n"), encoding=utf_8))
     text_file.close()
-    epochs  = request.args.get('epochs', None)
+    num_datapoints  = request.args.get('epochs', None)
     class_num = request.args.get('class',None)
     max_len = request.args.get('maxlen', None)
-    return jsonify([code, epochs,class_num, max_len])
+    
+    dataset_file = open("./text_dataset.py", "w")
+    line1 = "\n"
+    line2 = "\n"
+    line3 = f"ds = TextClassificationDataset({num_datapoints}, {max_len}, {class_num})"
+    line4 = "\n"
+    line5 = "dl = DataLoader(ds, batch_size = 32)"
+    line6 = "\n"
+    line7 = f"input_size = {(1, 128)}"
+    dataset_file.writelines([line1, line2, line3, line4, line5, line6, line7])
+    dataset_file.close()
+
+    subprocess.call(["bash", "text_compiler.sh"])
+    subprocess.call(["python", "assembled_text_model.py"])
+    
+    return jsonify([code, num_datapoints,class_num, max_len])
+
 @app.route('/api/v1/image', methods=['GET', 'POST'])
 @cross_origin()
 def img_call():
     code  = str(request.data)
-    text_file = open("sample.txt", "w")
+    
+    text_file = open("./sample.txt", "w")
+    code.replace('\t', ' ')
+    code.replace('b\'', '')
+    code.replace('\'', '')
     n = text_file.write(code.replace("\\n","\n"))
     text_file.close()
-    epochs  = request.args.get('epochs', None)
+    num_datapoints  = request.args.get('epochs', None)
     class_num = request.args.get('class',None)
     hei = request.args.get('height', None)
     wid = request.args.get('width', None)
-    return jsonify([code, epochs,class_num,hei, wid])
+
+    dataset_file = open("./vision_dataset.py", "w")
+    line1 = "\n"
+    line2 = "\n"
+    line3 = f"ds = ImageClassificationDataset({num_datapoints}, {(3, int(hei), int(wid))}, {class_num})"
+    line4 = "\n"
+    line5 = "dl = DataLoader(ds, batch_size = 32)"
+    line6 = "\n"
+    line7 = f"input_size = {(3, int(hei), int(wid))}"
+    dataset_file.writelines([line1, line2, line3, line4, line5, line6, line7])
+    dataset_file.close()
+    
+    subprocess.call(["bash", "compiler.sh"])
+    subprocess.call(["python", "assembled_vision_model.py"])
+    
+
+
+    return jsonify([code, num_datapoints,class_num,hei, wid])
     
 @app.route('/api/v1/echo', methods=['GET'])
 @cross_origin()
@@ -71,4 +111,4 @@ def index():
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
-    app.run(threaded=True, port=5000)
+    app.run(port=5000, debug=True)

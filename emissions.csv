@@ -1,0 +1,5 @@
+timestamp,experiment_id,project_name,duration,emissions,energy_consumed,country_name,country_iso_code,region,on_cloud,cloud_provider,cloud_region
+2022-02-20T01:56:37,aabd4c83-e648-478e-a0ed-8d7a2480be6d,codecarbon,20.51871156692505,6.382421506095761e-08,9.167910360601926e-08,Germany,DEU,north rhine-westphalia,N,,
+2022-02-20T01:58:26,a464c09a-1a43-4821-8895-e2c31ee9baa2,codecarbon,17.567394495010376,4.10897276566736e-08,5.9022573099902895e-08,Germany,DEU,north rhine-westphalia,N,,
+2022-02-20T01:59:13,6423781d-e084-49de-8515-bf7e6afac383,codecarbon,20.457513332366943,4.504215203631165e-08,6.469995939991008e-08,Germany,DEU,north rhine-westphalia,N,,
+2022-02-20T02:01:09,1ab90bf8-0ab1-4c78-a0a9-59fbccc8b1df,codecarbon,18.634443521499634,5.337557087206773e-08,7.667034349481744e-08,Germany,DEU,north rhine-westphalia,N,,
