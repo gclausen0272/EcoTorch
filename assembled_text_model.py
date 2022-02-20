@@ -43,7 +43,7 @@ class TextClassificationDataset(Dataset):
         return text, labels
 
 
-ds = TextClassificationDataset(900, 128, 10)
+ds = TextClassificationDataset(100, 100, 10)
 dl = DataLoader(ds, batch_size = 32)
 input_size = (1, 128)
 
@@ -68,9 +68,6 @@ class BertClassifier(nn.Module):
         return final_layer
 
 model = BertClassifier()
-
-
-
 
 
 def train(model, learning_rate, epochs):
@@ -100,8 +97,7 @@ def train(model, learning_rate, epochs):
                 mask = train_input['attention_mask'].to(device)
                 input_id = train_input['input_ids'].squeeze(1).to(device)
                 output = model(input_id, mask)
-                print(train_label.shape)
-                print(output.shape)
+                
                 batch_loss = criterion(output, train_label)
                 total_loss_train += batch_loss.item()
                 

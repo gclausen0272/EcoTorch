@@ -1,4 +1,5 @@
-b'model = models.resnet18(pretrained=True)
+
+model = models.resnet18(pretrained=True)
 
 num_classes = 3
 
@@ -13,5 +14,3 @@ model.fc =  nn.Sequential(nn.Linear(512, 256),
                          nn.Dropout(p=0.5), 
                          nn.Linear(256, num_classes), 
                          nn.LogSoftmax(dim=1))
-
-'

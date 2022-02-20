@@ -20,9 +20,10 @@ def home():
 @app.route('/api/v1/text', methods=['GET', 'POST'])
 @cross_origin()
 def text_call():
-    code  = str(request.data)
-    text_file = open("sample.txt", "w")
-    n = text_file.write(str(code.replace("\\n","\n"), encoding=utf_8))
+    code  = request.data
+    code = code.decode("utf-8")
+    text_file = open("sample_text.py", "w")
+    n = text_file.write(code.replace("\\n","\n"))
     text_file.close()
     num_datapoints  = request.args.get('sample', None)
     epochs  = request.args.get('epochs', None)
@@ -38,9 +39,11 @@ def text_call():
     line5 = "dl = DataLoader(ds, batch_size = 32)"
     line6 = "\n"
     line7 = f"input_size = {(1, 128)}"
-    dataset_file.writelines([line1, line2, line3, line4, line5, line6, line7])
+    line8 = "\n"
+    line9 = "\n"
+    dataset_file.writelines([line1, line2, line3, line4, line5, line6, line7, line8, line9])
     dataset_file.close()
-
+    subprocess.call(["python", "cleanup_text.py"])
     subprocess.call(["bash", "text_compiler.sh"])
     subprocess.call(["python", "assembled_text_model.py"])
     
@@ -50,12 +53,18 @@ def text_call():
 @cross_origin()
 def img_call():
     code  = str(request.data)
-    
-    text_file = open("./sample.txt", "w")
+    text_file = open("./sample_vision.py", "w")
     code.replace('\t', ' ')
     code.replace('b\'', '')
     code.replace('\'', '')
     n = text_file.write(code.replace("\\n","\n"))
+    new_s = code.replace("\\r\\n","\n")[2:-2]
+    """code  = str(request.data)
+    
+    text_file = open("./sample_vision.py", "w")
+    new_s = code.replace("\\r\\n","\n")"""
+    #n = text_file.write(new_s)
+    #n = text_file.write(code.replace("\\n","\n"))
     text_file.close()
     epochs  = request.args.get('epochs', None)
     num_datapoints  = request.args.get('sample', None)
@@ -67,14 +76,18 @@ def img_call():
     dataset_file = open("./vision_dataset.py", "w")
     line1 = "\n"
     line2 = "\n"
+    line8 = f"num_classes = {class_num}"
     line3 = f"ds = ImageClassificationDataset({num_datapoints}, {(3, int(hei), int(wid))}, {class_num})"
     line4 = "\n"
     line5 = "dl = DataLoader(ds, batch_size = 32)"
     line6 = "\n"
     line7 = f"input_size = {(3, int(hei), int(wid))}"
-    dataset_file.writelines([line1, line2, line3, line4, line5, line6, line7])
+    line8 = "\n"
+    line9 = "\n"
+    dataset_file.writelines([line1, line2, line3, line4, line5, line6, line7, line8, line9])
     dataset_file.close()
     
+    subprocess.call(["python", "cleanup_vision.py"])
     subprocess.call(["bash", "compiler.sh"])
     subprocess.call(["python", "assembled_vision_model.py"])
     
