@@ -5,6 +5,8 @@ from flask_cors import CORS, cross_origin
 import torch
 from subprocess import Popen, check_output
 import subprocess
+from emissionsCal import *
+import json
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -47,8 +49,13 @@ def text_call():
     subprocess.call(["python", "cleanup_text.py"])
     subprocess.call(["bash", "text_compiler.sh"])
     subprocess.call(["python", "assembled_text_model.py"])
-    
-    return jsonify([code, num_datapoints,class_num, max_len])
+
+    result = [calculate(epochs)]
+    with open('report.json', 'w') as fp:
+        json.dump(result, fp)
+    return result
+
+    # return jsonify([code, num_datapoints,class_num, max_len])
 
 @app.route('/api/v1/image', methods=['GET', 'POST'])
 @cross_origin()
@@ -96,11 +103,15 @@ def img_call():
     subprocess.call(["bash", "compiler.sh"])
     subprocess.call(["python", "assembled_vision_model.py"])
     
+    result = [calculate(epochs)]
+    with open('report.json', 'w') as fp:
+        json.dump(result, fp)
 
+    return result
 
-    return jsonify([code, num_datapoints,class_num,hei, wid])
+    # return jsonify([code, num_datapoints,class_num,hei, wid])
 
-    return jsonify([new_s,sample, epochs,class_num,hei, wid])
+    # return jsonify([new_s,sample, epochs,class_num,hei, wid])
     
 @app.route('/api/v1/echo', methods=['GET'])
 @cross_origin()
