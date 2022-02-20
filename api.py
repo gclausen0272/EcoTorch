@@ -31,7 +31,7 @@ def text_call():
 @cross_origin()
 def img_call():
     code  = str(request.data)
-    new_s = code.replace("\\r\\n","\n")[3:-3]
+    new_s = code.replace("\\r\\n","\n")[2:-2]
 
     text_file = open("sample.txt", "w")
     n = text_file.write(new_s)
