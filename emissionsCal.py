@@ -23,7 +23,7 @@ def calculate(epochs):
                 # print(energyConsumed)
                 currentDevice['TotalTime'] = time
                 currentDevice['energyConsumed'] = energyConsumed
-                currentDevice['emission'] = emission
+                currentDevice['emissions'] = emission
 
     tdp1 = multipleDevices["Tesla K80"][0]*currentDevice['TotalTime']/1000
     tdp2 = multipleDevices["Tesla V100-PCIE-16GB"][0]*currentDevice['TotalTime']/1000
