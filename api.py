@@ -18,25 +18,30 @@ def home():
 @cross_origin()
 def text_call():
     code  = str(request.data)
+    new_s = code.replace("\\r\\n","\n")[3:-3]
     text_file = open("sample.txt", "w")
-    n = text_file.write(code.replace("\\n","\n"))
+    n = text_file.write(new_s)
     text_file.close()
     epochs  = request.args.get('epochs', None)
+    sample  = request.args.get('sample', None)
     class_num = request.args.get('class',None)
     max_len = request.args.get('maxlen', None)
-    return jsonify([code, epochs,class_num, max_len])
+    return jsonify([new_s,sample, epochs,class_num, max_len])
 @app.route('/api/v1/image', methods=['GET', 'POST'])
 @cross_origin()
 def img_call():
     code  = str(request.data)
+    new_s = code.replace("\\r\\n","\n")[3:-3]
+
     text_file = open("sample.txt", "w")
-    n = text_file.write(code.replace("\\n","\n"))
+    n = text_file.write(new_s)
     text_file.close()
     epochs  = request.args.get('epochs', None)
     class_num = request.args.get('class',None)
     hei = request.args.get('height', None)
+    sample  = request.args.get('sample', None)
     wid = request.args.get('width', None)
-    return jsonify([code, epochs,class_num,hei, wid])
+    return jsonify([new_s,sample, epochs,class_num,hei, wid])
     
 @app.route('/api/v1/echo', methods=['GET'])
 @cross_origin()
