@@ -24,7 +24,9 @@ def text_call():
     text_file = open("sample.txt", "w")
     n = text_file.write(str(code.replace("\\n","\n"), encoding=utf_8))
     text_file.close()
-    num_datapoints  = request.args.get('epochs', None)
+    num_datapoints  = request.args.get('sample', None)
+    epochs  = request.args.get('epochs', None)
+
     class_num = request.args.get('class',None)
     max_len = request.args.get('maxlen', None)
     
@@ -55,7 +57,9 @@ def img_call():
     code.replace('\'', '')
     n = text_file.write(code.replace("\\n","\n"))
     text_file.close()
-    num_datapoints  = request.args.get('epochs', None)
+    epochs  = request.args.get('epochs', None)
+    num_datapoints  = request.args.get('sample', None)
+
     class_num = request.args.get('class',None)
     hei = request.args.get('height', None)
     wid = request.args.get('width', None)
