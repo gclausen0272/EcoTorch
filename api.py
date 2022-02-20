@@ -24,6 +24,7 @@ def text_call():
     code = code.decode("utf-8")
     text_file = open("sample_text.py", "w")
     n = text_file.write(code.replace("\\n","\n"))
+
     text_file.close()
     num_datapoints  = request.args.get('sample', None)
     epochs  = request.args.get('epochs', None)
@@ -53,6 +54,7 @@ def text_call():
 @cross_origin()
 def img_call():
     code  = str(request.data)
+
     text_file = open("./sample_vision.py", "w")
     code.replace('\t', ' ')
     code.replace('b\'', '')
@@ -65,13 +67,16 @@ def img_call():
     new_s = code.replace("\\r\\n","\n")"""
     #n = text_file.write(new_s)
     #n = text_file.write(code.replace("\\n","\n"))
+
     text_file.close()
     epochs  = request.args.get('epochs', None)
     num_datapoints  = request.args.get('sample', None)
 
     class_num = request.args.get('class',None)
     hei = request.args.get('height', None)
+    sample  = request.args.get('sample', None)
     wid = request.args.get('width', None)
+
 
     dataset_file = open("./vision_dataset.py", "w")
     line1 = "\n"
@@ -94,6 +99,8 @@ def img_call():
 
 
     return jsonify([code, num_datapoints,class_num,hei, wid])
+
+    return jsonify([new_s,sample, epochs,class_num,hei, wid])
     
 @app.route('/api/v1/echo', methods=['GET'])
 @cross_origin()
